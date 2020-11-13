@@ -34,6 +34,7 @@ describe("solo1 server test", () => {
             // 確認用コンソールログ
             console.log("setup finish start test");
         })
+        await menuRepo.delete({ id: Not(IsNull()) });
     });
 
     beforeEach(async () => {
@@ -62,22 +63,6 @@ describe("solo1 server test", () => {
     it("トレーニングメニューを登録", async function () {
         //Setup
         const newMenu = {
-            menuname: "Bench press",
-            bodypart: "abdominal"
-        };
-
-        //Exercise
-        const res = await request.post("/menus").send(newMenu);
-
-        //Assert
-        assert.strictEqual(res.statusCode, 201);
-        assert.deepEqual(res.body.menuname, newMenu.menuname);
-        assert.deepEqual(res.body.bodypart, newMenu.bodypart);
-    });
-
-    it("トレーニングメニューを登録", async function () {
-        //Setup
-        const newMenu = {
             menuname: "Abdominal",
             bodypart: "abdominal"
         };
@@ -98,10 +83,10 @@ describe("solo1 server test", () => {
         };
 
         //Exercise
-        const res = await request.post("/menus/Bench press").send(modifyMenu);
+        const res = await request.patch("/menus/Bench press").send(modifyMenu);
 
         //Assert
-        assert.strictEqual(res.statusCode, 201);
+        assert.strictEqual(res.statusCode, 200);
         assert.deepEqual(res.body.menuname, "Bench press");
         assert.deepEqual(res.body.bodypart, modifyMenu.bodypart);
     });

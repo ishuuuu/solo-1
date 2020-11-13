@@ -37,4 +37,24 @@ export class MenuService {
         }
         return this.menuRepository.save(newMenu);
     }
+
+    public async updateMenu(menuName: string, menuDetails: Partial<Menu>): Promise<Menu> {
+        const targetMenu = await this.menuRepository.findOne({
+            where: {
+                menuname: menuName,
+            },
+        });
+
+        if (targetMenu) {
+            if (menuDetails.menuname) {
+                targetMenu.menuname = menuDetails.menuname;
+            };
+            if (menuDetails.bodypart) {
+                targetMenu.bodypart = menuDetails.bodypart;
+            };
+            return this.menuRepository.save(targetMenu);
+        } else {
+            return Promise.resolve(null);
+        }
+    }
 }

@@ -35,6 +35,14 @@ router.post('/menus', (req, res, next) => {
         .catch(next);
 });
 
+router.patch('/menus/:menuName', (req, res, next) => {
+    const service = new MenuService();
+    service
+        .updateMenu(req.params.menuName, req.body)
+        .then(result => res.status(200).send(result))
+        .catch(next);
+});
+
 
 // -------------------------------------------------
 //  以下、何のルーティングにもマッチしないorエラー
