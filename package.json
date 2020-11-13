@@ -5,7 +5,10 @@
   "main": "bin/www",
   "license": "UNLICENSED",
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "node ./bin/www",
+    "testMigrate": "ts-node node_modules/.bin/typeorm --config src/ormconfig.ts migration:show",
+    "makeMigrate": "ts-node node_modules/.bin/typeorm --config app/ormconfig.ts migration:generate",
+    "runMigrate": "ts-node node_modules/.bin/typeorm --config app/ormconfig.ts migration:run"
   },
   "dependencies": {
     "@types/chai": "^4.2.11",
