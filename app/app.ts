@@ -1,3 +1,7 @@
+import DatabaseConnectionManager from "./database";
+
+import { Repository, getRepository, DeleteResult } from "typeorm";
+
 // ライブラリ読み込み
 import express from 'express';
 // import helmet from 'helmet';
@@ -25,3 +29,9 @@ app.use('/', router);
 //サーバ起動
 app.listen(port);
 console.log('listen on port ' + port);
+
+// データベースに接続
+DatabaseConnectionManager.connect().then(() => {
+    console.log("connect DB");
+});
+

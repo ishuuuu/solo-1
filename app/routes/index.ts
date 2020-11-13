@@ -1,4 +1,5 @@
 import express from 'express';
+import { TestService } from '../services/TestService';
 // import helmet from 'helmet';
 // import cors from 'cors';
 const app = express();
@@ -11,6 +12,15 @@ const router = express.Router();
 router.get('/helloWorld', (req, res) => {
     res.status(200).send({ message: 'Hello, world!!!' });
 });
+
+router.get('/test', (req, res, next) => {
+    const service = new TestService();
+    service
+        .test()
+        .then(result => res.status(200).send(result))
+        .catch(next);
+});
+
 
 // -------------------------------------------------
 //  以下、何のルーティングにもマッチしないorエラー
