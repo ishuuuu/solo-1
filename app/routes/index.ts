@@ -1,6 +1,8 @@
 import express from 'express';
 import { TestService } from '../services/TestService';
-import { UsersService } from '../services/UsersService';
+// import { UsersService } from '../services/UsersService';
+
+import { MenuService } from '../services/MenuService';
 
 // import helmet from 'helmet';
 // import cors from 'cors';
@@ -15,36 +17,46 @@ router.get('/helloWorld', (req, res) => {
     res.status(200).send({ message: 'Hello, world!!!' });
 });
 
-// router.get('/test', (req, res, next) => {
-//     const service = new TestService();
-//     service
-//         .test()
-//         .then(result => res.status(200).send(result))
-//         .catch(next);
-// });
-
-router.get('/users', (req, res) => {
-    res.status(200).send({ message: 'Hello, world!!!' });
-});
-
-
-router.get('/users/:name', (req, res, next) => {
-    const service = new UsersService();
-    const userName = req.params.name;
+router.get('/test', (req, res, next) => {
+    const service = new TestService();
     service
-        .getUser(userName)
+        .test()
         .then(result => res.status(200).send(result))
         .catch(next);
 });
 
-router.post('/users', (req, res, next) => {
-    const service = new UsersService();
+// router.get('/users/:name', (req, res, next) => {
+//     const service = new UsersService();
+//     const userName = req.params.name;
+//     service
+//         .getUser(userName)
+//         .then(result => res.status(200).send(result))
+//         .catch(next);
+// });
+
+// router.post('/users', (req, res, next) => {
+//     const service = new UsersService();
+//     service
+//         .createUser(req.body)
+//         .then(result => res.status(201).send(result))
+//         .catch(next);
+// });
+
+router.get('/menus/', (req, res, next) => {
+    const service = new MenuService();
     service
-        .createUser(req.body)
-        .then(result => res.status(201).send(result))
+        .getAllMenu()
+        .then(result => res.status(200).send(result))
         .catch(next);
 });
 
+router.post('/menus', (req, res, next) => {
+    const service = new MenuService();
+    service
+        .createMenu(req.body)
+        .then(result => res.status(201).send(result))
+        .catch(next);
+});
 
 
 // -------------------------------------------------

@@ -2,7 +2,7 @@ import DatabaseConnectionManager from "./database";
 
 import bcrypt from "bcrypt";
 import { Repository, getRepository, DeleteResult } from "typeorm";
-import User from "./entities/UserModel";
+// import User from "./entities/UserModel";
 
 
 
