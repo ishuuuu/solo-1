@@ -1,14 +1,8 @@
 import express from 'express';
 import { TestService } from '../services/TestService';
-// import { UsersService } from '../services/UsersService';
-
 import { MenuService } from '../services/MenuService';
 
-// import helmet from 'helmet';
-// import cors from 'cors';
 const app = express();
-// app.use(helmet());
-// app.use(cors());
 // ルーティングする
 const router = express.Router();
 
@@ -25,24 +19,7 @@ router.get('/test', (req, res, next) => {
         .catch(next);
 });
 
-// router.get('/users/:name', (req, res, next) => {
-//     const service = new UsersService();
-//     const userName = req.params.name;
-//     service
-//         .getUser(userName)
-//         .then(result => res.status(200).send(result))
-//         .catch(next);
-// });
-
-// router.post('/users', (req, res, next) => {
-//     const service = new UsersService();
-//     service
-//         .createUser(req.body)
-//         .then(result => res.status(201).send(result))
-//         .catch(next);
-// });
-
-router.get('/menus/', (req, res, next) => {
+router.get('/menus', (req, res, next) => {
     const service = new MenuService();
     service
         .getAllMenu()

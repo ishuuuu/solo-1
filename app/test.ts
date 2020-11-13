@@ -1,7 +1,11 @@
+// DB用設定
 import DatabaseConnectionManager from "./database";
+import { getRepository, Repository, Not, IsNull } from "typeorm";
+import Menu from "./entities/MenuModel";
+
+// テスト用設定
 const chai = require("chai");
 const chaiHttp = require("chai-http");
-// const expect = chai.expect;
 chai.use(chaiHttp);
 const assert = chai.assert;
 
@@ -9,9 +13,12 @@ import express from 'express';
 
 
 describe("solo1 server test", () => {
+    const TEST_MENU_ID = "3461cac2-35bd-4d45-a163-f220beb43d76";
     const app = express();
+    let menuRepo: Repository<Menu>;
     let request;
-    
+    let testMenu = new Menu();
+
     before(async () => {
         await DatabaseConnectionManager.connect().then(() => {
             console.log("connect DB");
@@ -19,19 +26,26 @@ describe("solo1 server test", () => {
             const bodyParser = require('body-parser');
             app.use(bodyParser.urlencoded({ extended: true }));
             app.use(bodyParser.json());
-            // ------ ルーティング ------ //
+            // ルーティング
             const router = require('./routes/');
             app.use('/', router);
-            //サーバ起動
-            // const port = process.env.PORT || 3000; // port番号を指定
-            // app.listen(port);
-            // console.log('listen on port ' + port);
+            // リポジトリ登録
+            menuRepo = getRepository(Menu);
+            // 確認用コンソールログ
             console.log("setup finish start test");
         })
     });
 
-    beforeEach(() => {
+    beforeEach(async () => {
         request = chai.request(app);
+        testMenu.id = TEST_MENU_ID;
+        testMenu.menuname = "Bench press";
+        testMenu.bodypart = "Pectoral";
+        await menuRepo.save(testMenu);
+    });
+
+    afterEach(async () => {
+        await menuRepo.delete({ id: Not(IsNull()) });
     });
 
     it("get all menu data", async function () {
@@ -42,9 +56,11 @@ describe("solo1 server test", () => {
 
         //Assert
         assert.strictEqual(res.statusCode, 200);
-        assert.deepEqual(res.body, {});
+        assert.deepEqual(res.body, [testMenu]);
     });
 
+
+    
 })
 
 

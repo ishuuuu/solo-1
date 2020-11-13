@@ -22,7 +22,26 @@
 - [x] テストを実行するための土台作り
   - [ ] ~~app.tsをindex.tsとapp.tsに分割し、app.tsはクラスとして作成~~
   - [x] test.tsを作成し、テストに失敗することを確認
-- [ ] 要件定義2
-  - [ ] ハッピーパス作成
+  - [ ] seedingについて
+    - [ ] beforeEachで必要なメニューを直接登録
+      - 以下IDサンプル
+      -  8364fc84-02eb-45c9-9dfb-fe7c8127cc63
+      -  235c612a-76df-4fb9-82a8-04184b1522f8
+      -  c52ac1b9-dd73-4913-a906-275a3f217629
+      -  3e134142-dc29-4f1d-a03a-ec57e2d91b4b
+    - [ ] Afterでメニューを全削除
+- [ ] テストケース（ハッピーパス作成）
+  - [ ] トレーニングメニュー
+    - [ ] GET /menu でメニューの一覧が配列として返る
+    - [ ] POST /menu でメニューを追加できる
+    - [ ] PATCH /menu/:MenuName でメニューを修正できる
+    - [ ] DELETE /menu:MenuName でメニューを削除できる
+  - [ ] ワークアウト登録
+    - [ ] GET /workouts でワークアウトの一覧が配列として返る
+    - [ ] GET /workouts/:Date で、その日付のワークアウト一覧が配列として返る
+    - [ ] GET /workouts/:MenuName で、そのメニューのワークアウト一覧が配列として返る
+    - [ ] POST /workouts でワークアウトを登録できる
+    - [ ] DELETE /workouts/:WorkoutID ワークアウトを削除できる
+
 - [ ] TDD！
 - [ ] スライド作成
