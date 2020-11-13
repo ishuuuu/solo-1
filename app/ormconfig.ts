@@ -22,13 +22,13 @@ export = {
   username: process.env.DB_USER || "expense_manager",
   password: process.env.DB_PASSWORD || "expense_manager",
   database: process.env.DB_NAME || "expense_manager",
-  entities: ["src/entities/**/*.ts"],
-  migrations: ["src/migrations/**/*.ts"],
-  seeds: ["src/seeds/**/*.ts"],
+  entities: ["app/entities/**/*.ts"],
+  migrations: ["app/migrations/**/*.ts"],
+  seeds: ["app/seeds/**/*.ts"],
   logging: false,
   migrationsRun: false /* Disable auto-run migration */,
   cli: {
-    entitiesDir: "src/entities",
-    migrationsDir: "src/migrations",
+    entitiesDir: "app/entities",
+    migrationsDir: "app/migrations",
   },
 };

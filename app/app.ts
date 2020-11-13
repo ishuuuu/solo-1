@@ -1,6 +1,10 @@
 import DatabaseConnectionManager from "./database";
 
+import bcrypt from "bcrypt";
 import { Repository, getRepository, DeleteResult } from "typeorm";
+import User from "./entities/UserModel";
+
+
 
 // ライブラリ読み込み
 import express from 'express';
@@ -33,5 +37,40 @@ console.log('listen on port ' + port);
 // データベースに接続
 DatabaseConnectionManager.connect().then(() => {
     console.log("connect DB");
+    // ユーザのデータにアクセス
+    let userRepository = getRepository(User);
+
+    async function getUser(userId: string) {
+        const user = await userRepository.findOne({
+            where: {
+                id: userId,
+            },
+        });
+        if (!user) {
+            return Promise.resolve(null);
+        }
+        return Promise.resolve(user);
+    }
+
+    async function createUser(userDetails) {
+        // 1. Hash password
+        const saltRound = 10;
+        const passwordHash = await bcrypt.hash(userDetails.password, saltRound);
+
+        // 2. Create user
+        const newUser = new User();
+        newUser.username = userDetails.username;
+        newUser.passwordHash = passwordHash;
+
+        return userRepository.save(newUser);
+    }
+
+    createUser({ username: "tester", password: "tester" }).then(result => {
+        console.log(result);
+    });
+    // getUser("test").then(result => {
+    //     console.log(result);
+    // });;
+
 });
 
