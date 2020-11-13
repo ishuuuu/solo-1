@@ -8,7 +8,8 @@
     "start": "node ./bin/www",
     "testMigrate": "ts-node node_modules/.bin/typeorm --config src/ormconfig.ts migration:show",
     "makeMigrate": "ts-node node_modules/.bin/typeorm --config app/ormconfig.ts migration:generate",
-    "runMigrate": "ts-node node_modules/.bin/typeorm --config app/ormconfig.ts migration:run"
+    "runMigrate": "ts-node node_modules/.bin/typeorm --config app/ormconfig.ts migration:run",
+    "test": "mocha --inspect -r ts-node/register -r dotenv/config app/test.ts"
   },
   "dependencies": {
     "@types/chai": "^4.2.11",
