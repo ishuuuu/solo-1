@@ -78,7 +78,7 @@ describe("solo1 server test", () => {
     it("トレーニングメニューを登録", async function () {
         //Setup
         const newMenu = {
-            menuname: "Bench press",
+            menuname: "Abdominal",
             bodypart: "abdominal"
         };
 
@@ -89,6 +89,21 @@ describe("solo1 server test", () => {
         assert.strictEqual(res.statusCode, 201);
         assert.deepEqual(res.body.menuname, newMenu.menuname);
         assert.deepEqual(res.body.bodypart, newMenu.bodypart);
+    });
+
+    it("トレーニングメニューを修正", async function () {
+        //Setup
+        const modifyMenu = {
+            bodypart: "abdominal"
+        };
+
+        //Exercise
+        const res = await request.post("/menus/Bench press").send(modifyMenu);
+
+        //Assert
+        assert.strictEqual(res.statusCode, 201);
+        assert.deepEqual(res.body.menuname, "Bench press");
+        assert.deepEqual(res.body.bodypart, modifyMenu.bodypart);
     });
 
 
