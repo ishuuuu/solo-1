@@ -91,6 +91,21 @@ describe("solo1 server test", () => {
         assert.deepEqual(res.body.bodypart, modifyMenu.bodypart);
     });
 
+    it("トレーニングメニューを削除", async function () {
+        //Setup
+
+        //Exercise
+        const res = await request.delete("/menus/Bench press");
+
+        //Assert
+        assert.strictEqual(res.statusCode, 200);
+        const user = await menuRepo.findOne({
+            where: {
+                menuname: "Bench press",
+            },
+        });
+    });
+
 
 })
 

@@ -34,7 +34,7 @@
   - [ ] トレーニングメニュー
     - [x] GET /menu でメニューの一覧が配列として返る
     - [x] POST /menu でメニューを追加できる
-    - [ ] PATCH /menu/:MenuName でメニューを修正できる
+    - [x] PATCH /menu/:MenuName でメニューを修正できる
     - [ ] DELETE /menu:MenuName でメニューを削除できる
   - [ ] ワークアウト登録
     - [ ] GET /workouts でワークアウトの一覧が配列として返る
@@ -42,6 +42,4 @@
     - [ ] GET /workouts/:MenuName で、そのメニューのワークアウト一覧が配列として返る
     - [ ] POST /workouts でワークアウトを登録できる
     - [ ] DELETE /workouts/:WorkoutID ワークアウトを削除できる
-
-- [ ] TDD！
 - [ ] スライド作成
