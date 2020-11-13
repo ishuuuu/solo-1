@@ -1,5 +1,7 @@
 import express from 'express';
 import { TestService } from '../services/TestService';
+import { UsersService } from '../services/UsersService';
+
 // import helmet from 'helmet';
 // import cors from 'cors';
 const app = express();
@@ -13,13 +15,36 @@ router.get('/helloWorld', (req, res) => {
     res.status(200).send({ message: 'Hello, world!!!' });
 });
 
-router.get('/test', (req, res, next) => {
-    const service = new TestService();
+// router.get('/test', (req, res, next) => {
+//     const service = new TestService();
+//     service
+//         .test()
+//         .then(result => res.status(200).send(result))
+//         .catch(next);
+// });
+
+router.get('/users', (req, res) => {
+    res.status(200).send({ message: 'Hello, world!!!' });
+});
+
+
+router.get('/users/:name', (req, res, next) => {
+    const service = new UsersService();
+    const userName = req.params.name;
     service
-        .test()
+        .getUser(userName)
         .then(result => res.status(200).send(result))
         .catch(next);
 });
+
+router.post('/users', (req, res, next) => {
+    const service = new UsersService();
+    service
+        .createUser(req.body)
+        .then(result => res.status(201).send(result))
+        .catch(next);
+});
+
 
 
 // -------------------------------------------------
