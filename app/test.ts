@@ -102,8 +102,9 @@ describe("solo1 server test", () => {
         const user = await menuRepo.findOne({
             where: {
                 menuname: "Bench press",
-            },
+            },            
         });
+        assert.strictEqual(user, undefined);
     });
 
 

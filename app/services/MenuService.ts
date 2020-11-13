@@ -17,18 +17,6 @@ export class MenuService {
         return Promise.resolve(menu);
     }
 
-    public async getMenu(menuName: string): Promise<Menu> {
-        const menu = await this.menuRepository.findOne({
-            where: {
-                menuname: menuName,
-            },
-        });
-        if (!menu) {
-            return Promise.resolve(null);
-        }
-        return Promise.resolve(menu);
-    }
-
     public async createMenu(menuDetails: Partial<Menu>): Promise<Menu> {
         const newMenu = new Menu();
         newMenu.menuname = menuDetails.menuname;
@@ -54,7 +42,22 @@ export class MenuService {
             };
             return this.menuRepository.save(targetMenu);
         } else {
-            return Promise.resolve(null);
+            throw new Error("menu not found");
         }
     }
+
+    public async deleteMenu(menuName: string) {
+        const targetMenu = await this.menuRepository.findOne({
+            where: {
+                menuname: menuName,
+            },
+        });
+
+        if (targetMenu) {
+            return this.menuRepository.remove(targetMenu);
+        } else {
+            throw new Error("menu not found");
+        }
+    }
+
 }

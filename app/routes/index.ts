@@ -37,10 +37,27 @@ router.post('/menus', (req, res, next) => {
 
 router.patch('/menus/:menuName', (req, res, next) => {
     const service = new MenuService();
+    try {
     service
         .updateMenu(req.params.menuName, req.body)
         .then(result => res.status(200).send(result))
         .catch(next);
+    } catch (e) {
+        res.status(400).end();
+    }
+});
+
+router.delete('/menus/:menuName', (req, res, next) => {
+    const service = new MenuService();
+    try {
+        service
+            .deleteMenu(req.params.menuName)
+            .then(result => res.status(200).end())
+            .catch(next);
+    } catch (e) {
+        res.status(400).end();
+    }
+
 });
 
 
