@@ -20,6 +20,11 @@ describe("solo1 server test", () => {
     const TEST_MENU_ID = "3461cac2-35bd-4d45-a163-f220beb43d76";
     const TEST_WORKOUT_ID = "c52ac1b9-dd73-4913-a906-275a3f217629";
     const TEST_SET_ID = "235c612a-76df-4fb9-82a8-04184b1522f8";
+
+    const TEST_MENU_ID2 = "ede66c43-9b9d-4222-93ed-5f11c96e08e2";
+    const TEST_WORKOUT_ID2 = "78290547-ddd6-4cf2-8fe4-7dd241da3061";
+    const TEST_SET_ID2 = "84E1C22D-6180-4613-8DCC-7BB22B2C834B";
+
     const app = express();
     let menuRepo: Repository<Menu>;
     let workoutRepo: Repository<Workout>;
@@ -29,6 +34,9 @@ describe("solo1 server test", () => {
     let testMenu = new Menu();
     let testWorkout = new Workout();
     let testSet = new Set();
+    let testMenu2 = new Menu();
+    let testWorkout2 = new Workout();
+    let testSet2 = new Set();
 
     before(async () => {
         await DatabaseConnectionManager.connect().then(() => {
@@ -54,7 +62,7 @@ describe("solo1 server test", () => {
         request = chai.request(app);
         testMenu.id = TEST_MENU_ID;
         testMenu.menuname = "Bench press";
-        testMenu.bodypart = "Pectoral";
+        testMenu.bodypart = "chest";
         await menuRepo.save(testMenu);
     });
 
@@ -78,7 +86,7 @@ describe("solo1 server test", () => {
             //Setup
             const newMenu = {
                 menuname: "Abdominal",
-                bodypart: "abdominal"
+                bodypart: "belly"
             };
 
             //Exercise
@@ -93,7 +101,7 @@ describe("solo1 server test", () => {
         it("トレーニングメニューを修正", async function () {
             //Setup
             const modifyMenu = {
-                bodypart: "abdominal"
+                bodypart: "belly"
             };
 
             //Exercise
@@ -141,7 +149,7 @@ describe("solo1 server test", () => {
 
 
     describe("ワークアウトに関するテスト", () => {
-        beforeEach(async () => {
+        before(async () => {
             // ワークアウトを登録
             testWorkout.id = TEST_WORKOUT_ID;
             testWorkout.date = "2020-11-14";
@@ -153,27 +161,72 @@ describe("solo1 server test", () => {
             testSet.weight = 36;
             testSet.count = 10;
             testSet = await setRepo.save(testSet);
+
+            // メニュー2を登録
+            testMenu2.id = TEST_MENU_ID2;
+            testMenu2.menuname = "Lat pulldown";
+            testMenu2.bodypart = "back";
+            testMenu2 = await menuRepo.save(testMenu2);
+
+            // ワークアウト2を登録
+            testWorkout2.id = TEST_WORKOUT_ID2;
+            testWorkout2.date = "2020-11-15";
+            testWorkout2.menu = await menuRepo.findOne(TEST_MENU_ID2);
+            testWorkout2 = await workoutRepo.save(testWorkout2);
+
+            // ワークアウトに紐づくセットセット情報2を登録
+            testSet2.id = TEST_SET_ID2;
+            testSet2.workout = await workoutRepo.findOne(TEST_WORKOUT_ID2);
+            testSet2.weight = 36;
+            testSet2.count = 10;
+            testSet2 = await setRepo.save(testSet2);
+
         });
 
         it("ワークアウトを取得", async function () {
             //Setup
-            let expect = new WorkoutSet();
-            expect.id = testWorkout.id;
-            expect.date = testWorkout.date;
-            expect.menu = testWorkout.menu;
+            let workoutSet = new WorkoutSet();
+            workoutSet.id = testWorkout.id;
+            workoutSet.date = testWorkout.date;
+            workoutSet.menu = testWorkout.menu;
             delete testSet.workout;
-            expect.set = [testSet];
+            workoutSet.set = [testSet];
+
+            let workoutSet2 = new WorkoutSet();
+            workoutSet2.id = testWorkout2.id;
+            workoutSet2.date = testWorkout2.date;
+            workoutSet2.menu = testWorkout2.menu;
+            delete testSet2.workout;
+            workoutSet2.set = [testSet2];
+
+            const expect = [workoutSet,workoutSet2];
 
             //Exercise
             const res = await request.get("/workouts");
 
             //Assert
             assert.strictEqual(res.statusCode, 200);
-            assert.deepStrictEqual(res.body[0], expect);
+            assert.deepStrictEqual(res.body, expect);
         });
 
-        
+        it("日付ごとのワークアウトを取得", async function () {
+            //Setup
+            let workoutSet2 = new WorkoutSet();
+            workoutSet2.id = testWorkout2.id;
+            workoutSet2.date = testWorkout2.date;
+            workoutSet2.menu = testWorkout2.menu;
+            delete testSet2.workout;
+            workoutSet2.set = [testSet2];
 
+            const expect = [workoutSet2];
+
+            //Exercise
+            const res = await request.get("/workouts/2020-11-15");
+
+            //Assert
+            assert.strictEqual(res.statusCode, 200);
+            assert.deepStrictEqual(res.body, expect);
+        });
 
     });
 
