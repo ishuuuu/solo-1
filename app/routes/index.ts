@@ -94,6 +94,18 @@ router.post('/workouts', (req, res, next) => {
         .catch(next);
 });
 
+router.delete('/workouts/:id', (req, res, next) => {
+    const service = new WorkoutService();
+    try {
+        service
+            .deleteWorkout(req.params.id)
+            .then(result => res.status(200).end())
+            .catch(next);
+    } catch (e) {
+        res.status(400).end();
+    }
+
+});
 
 // -------------------------------------------------
 //  以下、何のルーティングにもマッチしないorエラー

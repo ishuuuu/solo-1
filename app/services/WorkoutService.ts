@@ -98,6 +98,21 @@ export class WorkoutService{
         return retData;
     }
 
+    public async deleteWorkout(workoutID: string) {
+        const targetWorkout = await this.workoutRepository.findOne({
+            where: {
+                id: workoutID,
+            },
+        });
+
+        if (targetWorkout) {
+            return this.workoutRepository.remove(targetWorkout);
+        } else {
+            throw new Error("workout not found");
+        }
+    }
+
+
 
 }
 

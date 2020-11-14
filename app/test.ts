@@ -335,7 +335,7 @@ describe("solo1 server test", () => {
             expect = expect.filter((workout) => {
                 return workout.date == "2020-11-14"
             });
-            assert.strictEqual(expect, []);
+            assert.deepEqual(expect, []);
         });
 
 
