@@ -31,11 +31,11 @@
       -  3e134142-dc29-4f1d-a03a-ec57e2d91b4b
     - [x] Afterでメニューを全削除
 - [ ] テストケース（ハッピーパス作成）
-  - [ ] トレーニングメニュー
+  - [x] トレーニングメニュー
     - [x] GET /menu でメニューの一覧が配列として返る
     - [x] POST /menu でメニューを追加できる
     - [x] PATCH /menu/:MenuName でメニューを修正できる
-    - [ ] DELETE /menu:MenuName でメニューを削除できる
+    - [x] DELETE /menu:MenuName でメニューを削除できる
   - [ ] ワークアウト登録
     - [ ] GET /workouts でワークアウトの一覧が配列として返る
     - [ ] GET /workouts/:Date で、その日付のワークアウト一覧が配列として返る
