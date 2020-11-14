@@ -11,10 +11,10 @@ export class WorkoutService{
         this.workoutRepositori = getRepository(Workout);
     }
 
-    private date2String(date: Date) {
-        return format(date, 'YYYY-MM-DD');
-    }
-    
+    // private date2String(date: Date) {
+    //     return format(date, 'YYYY-MM-DD');
+    // }
+
 
 
 

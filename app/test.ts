@@ -17,14 +17,16 @@ import express from 'express';
 describe("solo1 server test", () => {
     const TEST_MENU_ID = "3461cac2-35bd-4d45-a163-f220beb43d76";
     const TEST_WORKOUT_ID = "c52ac1b9-dd73-4913-a906-275a3f217629";
+    const TEST_SET_ID = "235c612a-76df-4fb9-82a8-04184b1522f8";
     const app = express();
     let menuRepo: Repository<Menu>;
     let workoutRepo: Repository<Workout>;
+    let setRepo: Repository<Set>;
+    
     let request;
     let testMenu = new Menu();
     let testWorkout = new Workout();
-
-
+    let testSet = new Set();
 
     before(async () => {
         await DatabaseConnectionManager.connect().then(() => {
@@ -39,7 +41,7 @@ describe("solo1 server test", () => {
             // リポジトリ登録
             menuRepo = getRepository(Menu);
             workoutRepo = getRepository(Workout);
-
+            setRepo = getRepository(Set);
             // 確認用コンソールログ
             console.log("setup finish start test");
         })
@@ -144,9 +146,11 @@ describe("solo1 server test", () => {
             testWorkout.menu = await menuRepo.findOne(TEST_MENU_ID);
             await workoutRepo.save(testWorkout);
             // ワークアウトに紐づくセットセット情報を登録
-
-
-
+            testSet.id = TEST_SET_ID;
+            testSet.workout = await workoutRepo.findOne(TEST_WORKOUT_ID);
+            testSet.weight = 36;
+            testSet.count = 10;
+            await setRepo.save(testSet);
         });
 
         it("ワークアウトを取得", async function () {
