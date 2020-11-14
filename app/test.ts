@@ -265,6 +265,11 @@ describe("solo1 server test", () => {
                 ]
             }
 
+            //Exercise
+            const res = await request.post("/workouts").send(newWorkout);
+
+            //Assert
+            assert.strictEqual(res.statusCode, 201);
             let expect;
             const workoutList = await workoutRepo.find({
                 relations: ["menu"]
@@ -292,15 +297,46 @@ describe("solo1 server test", () => {
             expect = expect.filter((workout) => {
                 return workout.date == "2020-11-16"
             });
-
-            //Exercise
-            const res = await request.post("/workouts").send(newWorkout);
-
-            //Assert
-            assert.strictEqual(res.statusCode, 201);
-            assert.deepStrictEqual(res.body, expect[0]);
+            assert.deepEqual(res.body.id, expect[0].id);
         });
 
+        it("ワークアウトを削除", async function () {
+            //Setup
+
+            //Exercise
+            const res = await request.delete("/workouts/" + TEST_WORKOUT_ID);
+
+            //Assert
+            assert.strictEqual(res.statusCode, 200);
+            let expect;
+            const workoutList = await workoutRepo.find({
+                relations: ["menu"]
+            });
+            const setList = await setRepo.find({
+                relations: ["workout"]
+            });
+            let promiseList = await workoutList.map(async (workout) => {
+                let workoutSet = new WorkoutSet();
+                workoutSet.id = workout.id;
+                workoutSet.date = workout.date;
+                workoutSet.menu = workout.menu;
+                workoutSet.set = await setList.filter((set) => {
+                    return set.workout.id == workout.id
+                })
+                workoutSet.set = await workoutSet.set.map((set) => {
+                    delete set.workout;
+                    return set
+                })
+                return workoutSet;
+            });
+            await Promise.all(promiseList).then((values) => {
+                expect = values;
+            });
+            expect = expect.filter((workout) => {
+                return workout.date == "2020-11-14"
+            });
+            assert.strictEqual(expect, []);
+        });
 
 
     });

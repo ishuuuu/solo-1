@@ -8,10 +8,12 @@ import WorkoutSet from "../WorkoutSet";
 import { format } from 'date-fns';
 
 export class WorkoutService{
+    protected menuRepository: Repository<Menu>;
     protected workoutRepository: Repository<Workout>;
     protected setRepository: Repository<Set>;
 
     constructor() {
+        this.menuRepository = getRepository(Menu);
         this.workoutRepository = getRepository(Workout);
         this.setRepository = getRepository(Set);
     }
@@ -64,6 +66,37 @@ export class WorkoutService{
         return resData;
     }
 
+    public async createWorkout(workoutDetail): Promise<WorkoutSet> {
+        let retData = new WorkoutSet();
+        const menu = await this.menuRepository.findOne({
+            where: {
+                menuname: workoutDetail.menuname
+            }
+        });
+
+        const newWorkout = new Workout();
+        newWorkout.date = workoutDetail.date;
+        newWorkout.menu = menu;
+        const insertedWorkout = await this.workoutRepository.save(newWorkout);
+        retData.date = insertedWorkout.date;
+        retData.id = insertedWorkout.id;
+        retData.menu = insertedWorkout.menu;
+
+        let setList;
+        await Promise.all(workoutDetail.set.map(async (setData) => {
+            const newSet = new Set();
+            newSet.weight = setData.weight;
+            newSet.count = setData.count;
+            newSet.workout = insertedWorkout;
+            return await this.setRepository.save(newSet);
+        })).then((values) => {
+            setList = values;
+        });
+
+        retData.set = setList;
+        
+        return retData;
+    }
 
 
 }

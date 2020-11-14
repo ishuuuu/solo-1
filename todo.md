@@ -6,7 +6,7 @@
 - [x] DBとの接続を確立する
   - [x] 過去の課題を参考にまずは既存のDBと接続できる様にする
   - [x] 過去のDBに対してデータを登録する
-- [ ] 要件定義１
+- [x] 要件定義１
   - [x] イメージ概要決定
   - [x] DB構造決定
 - [x] DB作成
@@ -38,8 +38,8 @@
     - [x] DELETE /menu:MenuName でメニューを削除できる
   - [ ] ワークアウト登録
     - [x] GET /workouts でワークアウトの一覧が配列として返る
-    - [ ] GET /workouts/:Date で、その日付のワークアウト一覧が配列として返る
-    - [ ] GET /workouts/:MenuName で、そのメニューのワークアウト一覧が配列として返る
-    - [ ] POST /workouts でワークアウトを登録できる
+    - [x] GET /workouts/:Date で、その日付のワークアウト一覧が配列として返る
+    - [x] GET /workouts/:MenuName で、そのメニューのワークアウト一覧が配列として返る
+    - [x] POST /workouts でワークアウトを登録できる
     - [ ] DELETE /workouts/:WorkoutID ワークアウトを削除できる
 - [ ] スライド作成

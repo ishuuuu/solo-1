@@ -86,6 +86,14 @@ router.get('/workouts/:dateOrMenu', (req, res, next) => {
     }
 });
 
+router.post('/workouts', (req, res, next) => {
+    const service = new WorkoutService();
+    service
+        .createWorkout(req.body)
+        .then(result => res.status(201).send(result))
+        .catch(next);
+});
+
 
 // -------------------------------------------------
 //  以下、何のルーティングにもマッチしないorエラー
