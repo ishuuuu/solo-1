@@ -69,12 +69,21 @@ router.get('/workouts', (req, res, next) => {
         .catch(next);
 });
 
-router.get('/workouts/:date', (req, res, next) => {
+router.get('/workouts/:dateOrMenu', (req, res, next) => {
     const service = new WorkoutService();
-    service
-        .getWorkoutByDate(req.params.date)
-        .then(result => res.status(200).send(result))
-        .catch(next);
+    const param = req.params.dateOrMenu;
+    const datePattern = /[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])/
+    if (datePattern.test(param)) {
+        service
+            .getWorkoutByDate(param)
+            .then(result => res.status(200).send(result))
+            .catch(next);        
+    } else {
+        service
+            .getWorkoutByMenu(param)
+            .then(result => res.status(200).send(result))
+            .catch(next);        
+    }
 });
 
 

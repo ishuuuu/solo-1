@@ -56,6 +56,14 @@ export class WorkoutService{
         return resData;
     }
 
+    public async getWorkoutByMenu(menuname: string): Promise<WorkoutSet[]> {
+        const allWorkoutList = await this.getAllWorkout();
+        let resData = allWorkoutList.filter((workout) => {
+            return workout.menu.menuname == menuname
+        })
+        return resData;
+    }
+
 
 
 }
