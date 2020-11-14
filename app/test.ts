@@ -150,6 +150,11 @@ describe("solo1 server test", () => {
 
     describe("ワークアウトに関するテスト", () => {
         before(async () => {
+            testMenu.id = TEST_MENU_ID;
+            testMenu.menuname = "Bench press";
+            testMenu.bodypart = "chest";
+            await menuRepo.save(testMenu);
+
             // ワークアウトを登録
             testWorkout.id = TEST_WORKOUT_ID;
             testWorkout.date = "2020-11-14";
@@ -166,7 +171,7 @@ describe("solo1 server test", () => {
             testMenu2.id = TEST_MENU_ID2;
             testMenu2.menuname = "Lat pulldown";
             testMenu2.bodypart = "back";
-            testMenu2 = await menuRepo.save(testMenu2);
+            await menuRepo.save(testMenu2);
 
             // ワークアウト2を登録
             testWorkout2.id = TEST_WORKOUT_ID2;
@@ -227,6 +232,28 @@ describe("solo1 server test", () => {
             assert.strictEqual(res.statusCode, 200);
             assert.deepStrictEqual(res.body, expect);
         });
+
+        it("メニューごとのワークアウトを取得", async function () {
+            //Setup
+            let workoutSet2 = new WorkoutSet();
+            workoutSet2.id = testWorkout2.id;
+            workoutSet2.date = testWorkout2.date;
+            workoutSet2.menu = testWorkout2.menu;
+            delete testSet2.workout;
+            workoutSet2.set = [testSet2];
+
+            const expect = [workoutSet2];
+
+            //Exercise
+            const res = await request.get("/workouts/Lat pulldown");
+
+            //Assert
+            assert.strictEqual(res.statusCode, 200);
+            assert.deepStrictEqual(res.body, expect);
+        });
+
+
+
 
     });
 

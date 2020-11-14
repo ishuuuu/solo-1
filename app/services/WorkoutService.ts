@@ -48,6 +48,13 @@ export class WorkoutService{
         return resData;
     }
 
+    public async getWorkoutByDate(date: string): Promise<WorkoutSet[]> {
+        const allWorkoutList = await this.getAllWorkout();
+        let resData = allWorkoutList.filter((workout) => {
+            return workout.date == date
+        })
+        return resData;
+    }
 
 
 

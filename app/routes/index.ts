@@ -69,6 +69,14 @@ router.get('/workouts', (req, res, next) => {
         .catch(next);
 });
 
+router.get('/workouts/:date', (req, res, next) => {
+    const service = new WorkoutService();
+    service
+        .getWorkoutByDate(req.params.date)
+        .then(result => res.status(200).send(result))
+        .catch(next);
+});
+
 
 // -------------------------------------------------
 //  以下、何のルーティングにもマッチしないorエラー
