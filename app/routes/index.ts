@@ -1,6 +1,7 @@
 import express from 'express';
 import { TestService } from '../services/TestService';
 import { MenuService } from '../services/MenuService';
+import { WorkoutService } from '../services/WorkoutService';
 
 const app = express();
 // ルーティングする
@@ -58,6 +59,14 @@ router.delete('/menus/:menuName', (req, res, next) => {
         res.status(400).end();
     }
 
+});
+
+router.get('/workouts', (req, res, next) => {
+    const service = new WorkoutService();
+    service
+        .getAllWorkout()
+        .then(result => res.status(200).send(result))
+        .catch(next);
 });
 
 

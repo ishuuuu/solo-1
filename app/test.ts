@@ -4,6 +4,8 @@ import { getRepository, Repository, Not, IsNull } from "typeorm";
 import Menu from "./entities/MenuModel";
 import Workout from "./entities/WorkoutModel";
 import Set from "./entities/SetModel";
+import WorkoutSet from "./WorkoutSet";
+
 
 // テスト用設定
 const chai = require("chai");
@@ -144,30 +146,32 @@ describe("solo1 server test", () => {
             testWorkout.id = TEST_WORKOUT_ID;
             testWorkout.date = "2020-11-14";
             testWorkout.menu = await menuRepo.findOne(TEST_MENU_ID);
-            await workoutRepo.save(testWorkout);
+            testWorkout = await workoutRepo.save(testWorkout);
             // ワークアウトに紐づくセットセット情報を登録
             testSet.id = TEST_SET_ID;
             testSet.workout = await workoutRepo.findOne(TEST_WORKOUT_ID);
             testSet.weight = 36;
             testSet.count = 10;
-            await setRepo.save(testSet);
+            testSet = await setRepo.save(testSet);
         });
 
         it("ワークアウトを取得", async function () {
             //Setup
+            let expect = new WorkoutSet();
+            expect.id = testWorkout.id;
+            expect.date = testWorkout.date;
+            expect.menu = testWorkout.menu;
+            expect.set = [testSet];
 
             //Exercise
-            // const res = await request.delete("/menus/Bench press");
+            const res = await request.get("/workouts");
 
             //Assert
-            // assert.strictEqual(res.statusCode, 200);
-            // const user = await menuRepo.findOne({
-            //     where: {
-            //         menuname: "Bench press",
-            //     },
-            // });
-            // assert.strictEqual(user, undefined);
+            assert.strictEqual(res.statusCode, 200);
+            assert.deepStrictEqual(res.body[0], expect);
         });
+
+        
     });
 
 })

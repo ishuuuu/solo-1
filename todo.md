@@ -37,7 +37,7 @@
     - [x] PATCH /menu/:MenuName でメニューを修正できる
     - [x] DELETE /menu:MenuName でメニューを削除できる
   - [ ] ワークアウト登録
-    - [ ] GET /workouts でワークアウトの一覧が配列として返る
+    - [x] GET /workouts でワークアウトの一覧が配列として返る
     - [ ] GET /workouts/:Date で、その日付のワークアウト一覧が配列として返る
     - [ ] GET /workouts/:MenuName で、そのメニューのワークアウト一覧が配列として返る
     - [ ] POST /workouts でワークアウトを登録できる
