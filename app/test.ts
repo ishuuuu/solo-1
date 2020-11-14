@@ -2,6 +2,8 @@
 import DatabaseConnectionManager from "./database";
 import { getRepository, Repository, Not, IsNull } from "typeorm";
 import Menu from "./entities/MenuModel";
+import Workout from "./entities/WorkoutModel";
+import Set from "./entities/SetModel";
 
 // テスト用設定
 const chai = require("chai");
@@ -14,10 +16,13 @@ import express from 'express';
 
 describe("solo1 server test", () => {
     const TEST_MENU_ID = "3461cac2-35bd-4d45-a163-f220beb43d76";
+    const TEST_WORKOUT_ID = "c52ac1b9-dd73-4913-a906-275a3f217629";
     const app = express();
     let menuRepo: Repository<Menu>;
+    let workoutRepo: Repository<Workout>;
     let request;
     let testMenu = new Menu();
+    let testWorkout = new Workout();
 
 
 
@@ -33,6 +38,8 @@ describe("solo1 server test", () => {
             app.use('/', router);
             // リポジトリ登録
             menuRepo = getRepository(Menu);
+            workoutRepo = getRepository(Workout);
+
             // 確認用コンソールログ
             console.log("setup finish start test");
         })
@@ -131,11 +138,15 @@ describe("solo1 server test", () => {
 
     describe("ワークアウトに関するテスト", () => {
         beforeEach(async () => {
-            request = chai.request(app);
-            testMenu.id = TEST_MENU_ID;
-            testMenu.menuname = "Bench press";
-            testMenu.bodypart = "Pectoral";
-            await menuRepo.save(testMenu);
+            // ワークアウトを登録
+            testWorkout.id = TEST_WORKOUT_ID;
+            testWorkout.date = "2020-11-14";
+            testWorkout.menu = await menuRepo.findOne(TEST_MENU_ID);
+            await workoutRepo.save(testWorkout);
+            // ワークアウトに紐づくセットセット情報を登録
+
+
+
         });
 
         it("ワークアウトを取得", async function () {
