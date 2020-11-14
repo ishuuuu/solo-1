@@ -36,6 +36,10 @@ export class WorkoutService{
             workoutSet.set = await setList.filter((set) => {
                 return set.workout.id == workout.id
             })
+            workoutSet.set = await workoutSet.set.map((set) => {
+                delete set.workout;
+                return set
+            })
             return workoutSet;
         });
         await Promise.all(promiseList).then((values) => {

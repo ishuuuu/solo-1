@@ -62,7 +62,7 @@ describe("solo1 server test", () => {
         await menuRepo.delete({ id: Not(IsNull()) });
     });
 
-    describe.skip("トレーニングメニューに関するテスト", () => {
+    describe("トレーニングメニューに関するテスト", () => {
         it("全てのトレーニングメニューを取得", async function () {
             //Setup
 
@@ -161,6 +161,7 @@ describe("solo1 server test", () => {
             expect.id = testWorkout.id;
             expect.date = testWorkout.date;
             expect.menu = testWorkout.menu;
+            delete testSet.workout;
             expect.set = [testSet];
 
             //Exercise
@@ -172,6 +173,8 @@ describe("solo1 server test", () => {
         });
 
         
+
+
     });
 
 })
