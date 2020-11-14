@@ -19,7 +19,7 @@ class Workout {
     @Column({
         type: "date",
     })
-    public date: Date;
+    public date: String;
 }
 
 export default Workout;
