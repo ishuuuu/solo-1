@@ -297,7 +297,7 @@ describe("solo1 server test", () => {
             expect = expect.filter((workout) => {
                 return workout.date == "2020-11-16"
             });
-            assert.deepEqual(res.body.id, expect[0].id);
+            assert.deepEqual(res.body, expect[0]);
         });
 
         it("ワークアウトを削除", async function () {

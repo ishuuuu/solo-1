@@ -223,7 +223,7 @@ http://localhost:3000
 ```
 
 # GET /Workout/:MenuName
-日付を指定してワークアウトを取得することができます。
+メニュー名を指定してワークアウトを取得することができます。
 
 ## パラメータ
 ### Param
@@ -257,14 +257,31 @@ http://localhost:3000
 ]
 ```
 
-# POST /Workout/:MenuName
-日付を指定してワークアウトを取得することができます。
+# POST /Workout/
+ワークアウトを登録することができます。
 
 ## パラメータ
-### Param
-| パラメータ | 説明                            | 例          | 
-| ---------- | --------------------------------| ----------- | 
-| MenuName   | 取得するワークアウトのメニュー名 | Lat pulldown | 
+### Body
+```
+{
+	"date": "2020-11-16",
+	"menuname": "Bench press",
+	"set": [
+		{
+			"weight": 36,
+			"count": 10
+		},
+		{
+			"weight": 38,
+			"count": 10
+		},
+		{
+			"weight": 36,
+			"count": 10
+		}		
+	]
+}
+```
 
 ## レスポンスサンプル
 ### ステータスコード
@@ -272,38 +289,44 @@ http://localhost:3000
 
 ### Body
 ```
-[
-  {
-    "id": "78290547-ddd6-4cf2-8fe4-7dd241da3061",
-    "date": "2020-11-15",
-    "menu": {
-      "id": "ede66c43-9b9d-4222-93ed-5f11c96e08e2",
-      "menuname": "Lat pulldown",
-      "bodypart": "back"
+{
+  "date": "2020-11-16",
+  "id": "07e6ec45-8879-46e8-802e-9faac1b48d57",
+  "menu": {
+    "id": "3461cac2-35bd-4d45-a163-f220beb43d76",
+    "menuname": "Bench press",
+    "bodypart": "chest"
+  },
+  "set": [
+    {
+      "weight": 36,
+      "count": 10,
+      "id": "3cbd2146-d156-432d-a6d5-684563bec8fe"
     },
-    "set": [
-      {
-        "id": "84e1c22d-6180-4613-8dcc-7bb22b2c834b",
-        "weight": 36,
-        "count": 10
-      }
-    ]
-  }
-]
+    {
+      "weight": 38,
+      "count": 10,
+      "id": "be5b80b1-cca3-4faf-98ca-619d7b3ab5b1"
+    },
+    {
+      "weight": 36,
+      "count": 10,
+      "id": "e3849ec4-6626-43e7-a55a-0a20fb492f9a"
+    }
+  ]
+}
 ```
 
 
+# DELETE /Workout/:ID
+IDを指定してワークアウトを削除することができます。
 
-# GET /Menu
 ## パラメータ
+### Param
+| パラメータ | 説明                      | 例          | 
+| ---------- | --------------------------| ----------- | 
+| ID         | 削除するワークアウトのID | 84E1C22D-6180-4613-8DCC-7BB22B2C834B | 
+
 ## レスポンスサンプル
-
-
-
-
-
-
-
-
-
-
+### ステータスコード
+200

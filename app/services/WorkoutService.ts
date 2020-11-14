@@ -93,6 +93,11 @@ export class WorkoutService{
             setList = values;
         });
 
+        setList = await setList.map((set) => {
+            delete set.workout;
+            return set
+        })
+
         retData.set = setList;
         
         return retData;
